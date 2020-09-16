@@ -1,6 +1,6 @@
 <template>
     <p class="homeText">
-        Syötä tapahtuma
+        Syötä tehtävä
     </p>
 </template>
 <script>

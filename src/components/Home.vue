@@ -1,6 +1,6 @@
 <template>
   <p class="homeText">
-    Tervetuloa tapahtumakalenteriin
+    Tervetuloa tehtäväkalenteriin
   </p>
 </template>
 <script>
