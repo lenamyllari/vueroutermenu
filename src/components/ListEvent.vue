@@ -4,10 +4,10 @@
       <table id="task-table" class="table table-striped">
         <thead>
         <tr>
-          <th>a</th>
-          <th>b</th>
-          <th>c</th>
-          <th>d</th>
+          <th>Course</th>
+          <th>Task</th>
+          <th>Deadline</th>
+          <th>Done</th>
         </tr>
         </thead>
         <tbody>
@@ -16,7 +16,8 @@
           <td>{{ note.course }}</td>
           <td>{{ note.task }}</td>
           <td>{{ note.date }}</td>
-          <td>{{ note.done }}</td>
+          <td v-if="note.done===true">yes</td>
+          <td v-if="note.done===false">no</td>
         </tr>
         </tbody>
       </table>
