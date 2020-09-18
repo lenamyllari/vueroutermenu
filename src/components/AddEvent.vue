@@ -6,14 +6,18 @@
         <form @submit.prevent="addTask">
             <label for="course">Course</label>
             <div>
-                <input id="course" type="text" v-model="course" required autofocus>
+                <input id="course" type="text" v-model="course" autofocus>
             </div>
-
+            <p v-if="errorCourse" class="error-message">
+                ❗Fill in the course name, please
+            </p>
             <label for="task">Task</label>
             <div>
-                <input id="task" type="text" v-model="task" required>
+                <input id="task" type="text" v-model="task" >
             </div>
-
+            <p v-if="errorTask" class="error-message">
+                ❗Fill in the task, please
+            </p>
             <label for="deadline">Password</label>
             <div>
                 <input id="deadline" type="date" v-model="date" required>
@@ -29,6 +33,7 @@
 
             <button>Add new task</button>
         </form>
+        <p v-if="dataSent">Data saved successfully</p>
     </div>
 </template>
 <script>
@@ -59,24 +64,47 @@
                     date: '',
                     done: false,
                 },
-                picked: ''
+                picked: '',
+                error: false,
+                success: '',
+            }
+
+        },
+        computed: {
+            errorCourse(){
+                return this.success===false && this.course.length<=0
+            },
+            errorTask(){
+                return this.success===false && this.task.length<=0
+            },
+            dataSent(){
+                return this.success===true
             }
 
         },
         methods:{
             async addTask(){
-                this.newTask.course=this.course;
-                this.newTask.task=this.task;
-                this.newTask.date= this.date;
-                this.newTask.done= Boolean(JSON.parse(this.picked));
-                axios.post(baseURL, this.newTask)
-                    .then(res=>{
-                        console.log(res);
-                        this.course='';
-                        this.task='';
-                        this.date='';
-                    console.log(this.task)}
-                    )
+                if(this.course.length<=0 || this.task.length<=0){
+                    this.error=true;
+                    this.success=false;
+                }
+
+                else {
+                    this.success=true;
+                    this.newTask.course = this.course;
+                    this.newTask.task = this.task;
+                    this.newTask.date = this.date;
+                    this.newTask.done = Boolean(JSON.parse(this.picked));
+                    axios.post(baseURL, this.newTask)
+                        .then(res => {
+                                console.log(res);
+                                this.course = '';
+                                this.task = '';
+                                this.date = '';
+                                console.log(this.task)
+                            }
+                        )
+                }
             }
         }
 
@@ -91,4 +119,9 @@
         top: 30px;
         text-shadow: 2px 2px 2px gray;
     }
+
+     .error-message {
+         color: #d33c40;
+     }
+
 </style>
